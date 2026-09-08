@@ -1,0 +1,1661 @@
+<title>ACT 員工特惠購</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap">
+
+<style>
+/* ── Token System ── */
+:root {
+  --brand: #1B7F6A;
+  --brand-mid: #3EC99A;
+  --brand-light: #D4F0E8;
+  --bg: #F4F7F6;
+  --bg-card: #FFFFFF;
+  --bg-section: #EDF3F1;
+  --border: #C8DDD8;
+  --border-strong: #A5C4BC;
+  --text: #1C2B28;
+  --text-mid: #3D5550;
+  --text-muted: #6E8C87;
+  --amber: #E09B2A;
+  --amber-bg: #FEF6E4;
+  --red: #D04B4B;
+  --red-bg: #FDE8E8;
+  --tag-bg: #E3F3EE;
+  --shadow-sm: 0 1px 3px rgba(27,127,106,0.08);
+  --shadow-md: 0 4px 16px rgba(27,127,106,0.12);
+  --r: 8px;
+  --header-h: 72px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --brand: #3EC99A;
+    --brand-mid: #5DD9B0;
+    --brand-light: #143D30;
+    --bg: #0E1F1A;
+    --bg-card: #152820;
+    --bg-section: #0B1A15;
+    --border: #1E3D32;
+    --border-strong: #2A5444;
+    --text: #E8F5F1;
+    --text-mid: #9FCCC0;
+    --text-muted: #5A8C80;
+    --amber: #F0B43A;
+    --amber-bg: #2A1E00;
+    --red: #E06060;
+    --red-bg: #2A1010;
+    --tag-bg: #1A3D30;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+  }
+}
+:root[data-theme="dark"] {
+  --brand: #3EC99A;
+  --brand-mid: #5DD9B0;
+  --brand-light: #143D30;
+  --bg: #0E1F1A;
+  --bg-card: #152820;
+  --bg-section: #0B1A15;
+  --border: #1E3D32;
+  --border-strong: #2A5444;
+  --text: #E8F5F1;
+  --text-mid: #9FCCC0;
+  --text-muted: #5A8C80;
+  --amber: #F0B43A;
+  --amber-bg: #2A1E00;
+  --red: #E06060;
+  --red-bg: #2A1010;
+  --tag-bg: #1A3D30;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── Header ── */
+header {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--brand);
+  height: var(--header-h);
+  display: flex; align-items: center;
+  padding: 0 24px;
+  gap: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+}
+.logo-mark {
+  display: flex; align-items: center; gap: 10px;
+  flex-shrink: 0;
+}
+.logo-icon {
+  width: 38px; height: 38px;
+  background: rgba(255,255,255,0.18);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 17px; color: #fff; letter-spacing: -1px;
+  border: 1.5px solid rgba(255,255,255,0.3);
+}
+.logo-text { color: #fff; }
+.logo-text .act { font-weight: 900; font-size: 20px; letter-spacing: 1px; }
+.logo-text .sub { font-size: 11px; font-weight: 400; opacity: 0.75; letter-spacing: 0.5px; margin-top: -2px; }
+
+header .spacer { flex: 1; }
+
+/* Countdown in header */
+#countdown-bar {
+  display: flex; align-items: center; gap: 12px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 8px;
+  padding: 8px 16px;
+}
+.countdown-label { color: rgba(255,255,255,0.7); font-size: 11px; letter-spacing: 0.5px; }
+#countdown-digits {
+  display: flex; gap: 8px; align-items: center;
+}
+.cd-block {
+  display: flex; flex-direction: column; align-items: center;
+}
+.cd-num {
+  font-size: 20px; font-weight: 700; color: #fff;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.cd-unit { font-size: 9px; color: rgba(255,255,255,0.55); letter-spacing: 0.5px; margin-top: 1px; }
+.cd-sep { font-size: 18px; color: rgba(255,255,255,0.4); font-weight: 300; margin-bottom: 8px; }
+#countdown-bar.amber { background: var(--amber); }
+#countdown-bar.amber .cd-num { color: #fff; }
+
+/* ── Closed banner ── */
+#closed-state {
+  display: none;
+  min-height: calc(100vh - var(--header-h));
+  flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 20px;
+  padding: 60px 24px;
+  text-align: center;
+}
+#closed-state .closed-icon {
+  width: 80px; height: 80px;
+  background: var(--red-bg);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px;
+}
+#closed-state h2 { font-size: 28px; font-weight: 700; color: var(--text); }
+#closed-state p { color: var(--text-mid); font-size: 15px; max-width: 400px; line-height: 1.8; }
+
+/* ── Main layout ── */
+#main-content {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+}
+
+/* ── Notice bar ── */
+.notice-bar {
+  grid-column: 1 / -1;
+  background: var(--amber-bg);
+  border: 1px solid var(--amber);
+  border-radius: var(--r);
+  padding: 12px 18px;
+  display: flex; align-items: center; gap: 10px;
+  color: var(--text);
+  font-size: 13.5px;
+}
+.notice-bar strong { color: var(--amber); font-weight: 700; }
+
+/* ── Category sections ── */
+.cat-section { margin-bottom: 32px; }
+.cat-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--brand-light);
+}
+.cat-badge {
+  background: var(--brand);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+.cat-title { font-size: 16px; font-weight: 700; color: var(--text); }
+.cat-count { font-size: 12px; color: var(--text-muted); margin-left: auto; }
+
+/* ── Product table ── */
+.products-table {
+  background: var(--bg-card);
+  border-radius: var(--r);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.prod-row {
+  display: grid;
+  grid-template-columns: 32px 1fr auto auto 120px;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.prod-row:last-child { border-bottom: none; }
+.prod-row:hover { background: var(--bg-section); }
+.prod-row.header-row {
+  background: var(--bg-section);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--border-strong);
+}
+.prod-row.header-row:hover { background: var(--bg-section); }
+
+.prod-num {
+  font-size: 11px; color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+.prod-info { min-width: 0; }
+.prod-name { font-size: 14px; font-weight: 500; color: var(--text); line-height: 1.4; }
+.prod-spec {
+  font-size: 12px; color: var(--text-muted); margin-top: 1px;
+  display: flex; align-items: center; gap: 6px;
+}
+.prod-code { font-size: 10px; color: var(--text-muted); opacity: 0.7; }
+
+.prod-stock {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+.stock-ok { color: var(--brand); }
+.stock-low { color: var(--amber); }
+.stock-label { font-size: 10px; color: var(--text-muted); }
+
+.prod-price {
+  font-size: 15px; font-weight: 700;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  text-align: right;
+}
+.price-unit { font-size: 10px; font-weight: 400; color: var(--text-muted); }
+
+/* ── Qty input ── */
+.qty-control {
+  display: flex; align-items: center; gap: 0;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--bg);
+}
+.qty-btn {
+  width: 30px; height: 34px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--brand);
+  font-size: 18px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.12s;
+  flex-shrink: 0;
+}
+.qty-btn:hover { background: var(--brand-light); }
+.qty-btn:active { background: var(--brand); color: #fff; }
+.qty-input {
+  width: 44px; height: 34px;
+  border: none; border-left: 1px solid var(--border); border-right: 1px solid var(--border);
+  background: var(--bg-card);
+  text-align: center;
+  font-family: inherit;
+  font-size: 14px; font-weight: 600;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  outline: none;
+  -moz-appearance: textfield;
+}
+.qty-input::-webkit-outer-spin-button,
+.qty-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+.qty-input:focus { background: var(--brand-light); }
+
+/* ── Stock states ── */
+.qty-btn:disabled {
+  opacity: 0.25; cursor: not-allowed;
+}
+.qty-btn:disabled:hover { background: none; }
+.stock-full-hint {
+  font-size: 10px; color: var(--amber); text-align: center;
+  margin-top: 2px; display: none; grid-column: 5;
+  font-weight: 600; letter-spacing: 0.2px;
+}
+.at-max .stock-full-hint { display: block; }
+.sold-out-badge {
+  display: inline-flex; align-items: center;
+  background: var(--red-bg);
+  border: 1px solid var(--red);
+  color: var(--red);
+  font-size: 11px; font-weight: 700;
+  border-radius: 5px;
+  padding: 6px 14px;
+  letter-spacing: 0.5px;
+  width: 120px; justify-content: center;
+}
+.prod-row.sold-out { opacity: 0.55; }
+.prod-row.sold-out .prod-name { text-decoration: line-through; }
+
+/* ── Right sidebar ── */
+.sidebar { display: flex; flex-direction: column; gap: 16px; }
+.cart-panel {
+  position: sticky; top: calc(var(--header-h) + 16px);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+.panel-head {
+  background: var(--brand);
+  color: #fff;
+  padding: 14px 18px;
+  font-weight: 700; font-size: 14px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.panel-head span { opacity: 0.75; font-size: 12px; font-weight: 400; }
+
+#cart-items {
+  max-height: 260px;
+  overflow-y: auto;
+  padding: 0;
+}
+#cart-items:empty::after {
+  content: '尚未選購任何商品';
+  display: block;
+  padding: 24px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+.cart-item {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 10px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.cart-item-name { color: var(--text); flex: 1; line-height: 1.4; }
+.cart-item-detail { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+.cart-item-total { font-weight: 700; color: var(--brand); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+.cart-summary {
+  padding: 14px 18px;
+  border-top: 2px solid var(--brand-light);
+}
+.summary-row {
+  display: flex; justify-content: space-between;
+  font-size: 13px; color: var(--text-mid);
+  margin-bottom: 6px;
+}
+.summary-row.total {
+  font-size: 18px; font-weight: 700; color: var(--text);
+  margin-top: 10px; padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.summary-row.total .amount { color: var(--brand); }
+
+/* ── Order form ── */
+.order-form { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.form-group { display: flex; flex-direction: column; gap: 4px; }
+.form-label { font-size: 12px; font-weight: 600; color: var(--text-mid); letter-spacing: 0.3px; }
+.form-label .req { color: var(--red); margin-left: 2px; }
+.form-input {
+  border: 1.5px solid var(--border-strong);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--bg);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.form-input:focus { border-color: var(--brand); background: var(--bg-card); }
+.form-input.error { border-color: var(--red); }
+
+/* ── Submit button ── */
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--brand);
+  color: #fff;
+  font-family: inherit;
+  font-size: 16px; font-weight: 700;
+  border: none; border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  letter-spacing: 0.5px;
+}
+.submit-btn:hover { background: #166B58; }
+.submit-btn:active { transform: scale(0.98); }
+.submit-btn:disabled { background: var(--text-muted); cursor: not-allowed; transform: none; }
+
+/* ── Modal ── */
+#modal-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 200;
+  align-items: center; justify-content: center;
+  padding: 24px;
+}
+#modal-overlay.open { display: flex; }
+.modal-box {
+  background: var(--bg-card);
+  border-radius: 12px;
+  max-width: 520px; width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.modal-head {
+  background: var(--brand);
+  color: #fff;
+  padding: 20px 24px;
+  border-radius: 12px 12px 0 0;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.modal-head h3 { font-size: 18px; font-weight: 700; }
+.modal-close {
+  background: none; border: none; color: #fff;
+  font-size: 24px; cursor: pointer; opacity: 0.7;
+  line-height: 1;
+}
+.modal-close:hover { opacity: 1; }
+.modal-body { padding: 24px; }
+.modal-info { margin-bottom: 20px; }
+.modal-info-row {
+  display: flex; gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+.modal-info-row:last-child { border-bottom: none; }
+.modal-info-label { color: var(--text-muted); width: 80px; flex-shrink: 0; }
+.modal-info-val { color: var(--text); font-weight: 500; }
+.modal-items-title { font-size: 12px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
+.modal-item-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 8px 0;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+}
+.modal-item-row:last-child { border-bottom: none; }
+.modal-total-row {
+  display: flex; justify-content: space-between;
+  font-size: 18px; font-weight: 700;
+  padding: 14px 0 0;
+  color: var(--brand);
+  border-top: 2px solid var(--brand-light);
+  margin-top: 8px;
+}
+.modal-footer { padding: 0 24px 24px; display: flex; gap: 12px; }
+.modal-print-btn {
+  flex: 1; padding: 12px;
+  background: var(--bg-section);
+  border: 1.5px solid var(--border-strong);
+  border-radius: 8px;
+  font-family: inherit; font-size: 14px; font-weight: 600;
+  color: var(--text); cursor: pointer;
+  transition: background 0.15s;
+}
+.modal-print-btn:hover { background: var(--brand-light); }
+.modal-confirm-btn {
+  flex: 1; padding: 12px;
+  background: var(--brand);
+  border: none; border-radius: 8px;
+  font-family: inherit; font-size: 14px; font-weight: 700;
+  color: #fff; cursor: pointer;
+  transition: background 0.15s;
+}
+.modal-confirm-btn:hover { background: #166B58; }
+
+/* ── Success state ── */
+.success-msg {
+  text-align: center;
+  padding: 20px;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+}
+.success-msg .success-icon { font-size: 48px; }
+.success-msg h3 { font-size: 20px; font-weight: 700; color: var(--brand); }
+.success-msg p { color: var(--text-mid); font-size: 14px; line-height: 1.7; }
+.success-order-id {
+  background: var(--tag-bg);
+  border: 1px solid var(--brand-light);
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-variant-numeric: tabular-nums;
+  font-size: 13px; font-weight: 600; color: var(--brand);
+}
+
+/* ── Admin setup panel ── */
+#admin-toggle {
+  position: fixed; bottom: 20px; right: 20px; z-index: 300;
+  width: 36px; height: 36px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-strong);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: var(--shadow-md);
+  opacity: 0.35;
+  transition: opacity 0.2s;
+}
+#admin-toggle:hover { opacity: 1; }
+#admin-panel {
+  display: none;
+  position: fixed; bottom: 66px; right: 20px; z-index: 300;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 16px;
+  width: 320px;
+  box-shadow: var(--shadow-md);
+  font-size: 13px;
+}
+#admin-panel.open { display: block; }
+.admin-title {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.8px;
+  text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px;
+}
+.admin-status {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+.admin-status.ok { background: var(--tag-bg); color: var(--brand); }
+.admin-status.empty { background: var(--amber-bg); color: var(--amber); }
+.admin-url-input {
+  width: 100%;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-family: monospace; font-size: 11px;
+  color: var(--text); background: var(--bg);
+  outline: none; margin-bottom: 8px;
+}
+.admin-url-input:focus { border-color: var(--brand); }
+.admin-save-btn {
+  width: 100%; padding: 8px;
+  background: var(--brand); color: #fff;
+  border: none; border-radius: 6px;
+  font-family: inherit; font-size: 13px; font-weight: 600;
+  cursor: pointer;
+}
+.admin-save-btn:hover { background: #166B58; }
+.admin-clear-btn {
+  width: 100%; padding: 6px; margin-top: 6px;
+  background: none; color: var(--text-muted);
+  border: 1px solid var(--border); border-radius: 6px;
+  font-family: inherit; font-size: 12px; cursor: pointer;
+}
+.admin-clear-btn:hover { color: var(--red); border-color: var(--red); }
+
+/* ── Scrollbar styling ── */
+#cart-items::-webkit-scrollbar { width: 4px; }
+#cart-items::-webkit-scrollbar-track { background: transparent; }
+#cart-items::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+
+@media (max-width: 720px) {
+  #main-content { grid-template-columns: 1fr; }
+  .sidebar { order: -1; }
+  .cart-panel { position: static; }
+  .prod-row { grid-template-columns: 28px 1fr auto 100px; }
+  .prod-stock { display: none; }
+  header { padding: 0 14px; gap: 10px; }
+  #countdown-bar { padding: 6px 10px; gap: 8px; }
+  .cd-num { font-size: 16px; }
+}
+
+@media print {
+  header, .cat-section, .sidebar, .notice-bar { display: none !important; }
+  .modal-footer { display: none !important; }
+}
+</style>
+
+<!-- ── Header ── -->
+<header>
+  <div class="logo-mark">
+    <div class="logo-icon">ACT</div>
+    <div class="logo-text">
+      <div class="act">ACT</div>
+      <div class="sub">抗菌居家生活</div>
+    </div>
+  </div>
+  <div class="spacer"></div>
+  <div id="countdown-bar">
+    <div class="countdown-label">下單截止</div>
+    <div id="countdown-digits">
+      <div class="cd-block"><div class="cd-num" id="cd-d">--</div><div class="cd-unit">天</div></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-block"><div class="cd-num" id="cd-h">--</div><div class="cd-unit">時</div></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-block"><div class="cd-num" id="cd-m">--</div><div class="cd-unit">分</div></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-block"><div class="cd-num" id="cd-s">--</div><div class="cd-unit">秒</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ── Closed state ── -->
+<div id="closed-state">
+  <div class="closed-icon">🔒</div>
+  <h2>本次特惠購已截止</h2>
+  <p>感謝您的參與！ACT員工特惠購下單期間（2026年9月8日–9月18日）已結束。<br>如有任何疑問，請洽詢相關人員。</p>
+</div>
+
+<!-- ── Main content ── -->
+<div id="main-content">
+  <div class="notice-bar">
+    ⚡ <strong>員工專屬特惠</strong>　下單期間：2026年9月8日（一）至 9月18日（五）23:59 止。每人不限數量，依庫存為準。
+  </div>
+
+  <!-- Left: Products -->
+  <div id="products-col">
+
+    <!-- 餐廚 -->
+    <div class="cat-section">
+      <div class="cat-header">
+        <span class="cat-badge">KITCHEN</span>
+        <span class="cat-title">餐廚環保</span>
+        <span class="cat-count">3 件商品</span>
+      </div>
+      <div class="products-table">
+        <div class="prod-row header-row">
+          <div>#</div><div>商品</div><div>庫存</div><div>員工價</div><div>數量</div>
+        </div>
+        <div class="prod-row" data-id="1" data-price="16" data-name="抗菌環保餐具袋" data-spec="26×6cm" data-stock="4">
+          <div class="prod-num">1</div>
+          <div class="prod-info">
+            <div class="prod-name">抗菌環保餐具袋</div>
+            <div class="prod-spec">26×6cm <span class="prod-code">AA2001000-ORI-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-low">4</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">16 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(1,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-1" value="0" min="0" max="4" oninput="updateCart(1)">
+            <button class="qty-btn" onclick="changeQty(1,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="2" data-price="77" data-name="銀銅鈦過濾吸管（藍）" data-spec="裸裝・藍色" data-stock="8">
+          <div class="prod-num">2</div>
+          <div class="prod-info">
+            <div class="prod-name">銀銅鈦過濾吸管</div>
+            <div class="prod-spec">裸裝・藍色 <span class="prod-code">AA2001001-BLU-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-low">8</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">77 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(2,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-2" value="0" min="0" max="8" oninput="updateCart(2)">
+            <button class="qty-btn" onclick="changeQty(2,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="3" data-price="77" data-name="銀銅鈦過濾吸管（綠）" data-spec="裸裝・綠色" data-stock="12">
+          <div class="prod-num">3</div>
+          <div class="prod-info">
+            <div class="prod-name">銀銅鈦過濾吸管</div>
+            <div class="prod-spec">裸裝・綠色 <span class="prod-code">AA2001002-GRN-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-low">12</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">77 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(3,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-3" value="0" min="0" max="12" oninput="updateCart(3)">
+            <button class="qty-btn" onclick="changeQty(3,1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 個人護理 -->
+    <div class="cat-section">
+      <div class="cat-header">
+        <span class="cat-badge">PERSONAL</span>
+        <span class="cat-title">個人護理配件</span>
+        <span class="cat-count">6 件商品</span>
+      </div>
+      <div class="products-table">
+        <div class="prod-row header-row">
+          <div>#</div><div>商品</div><div>庫存</div><div>員工價</div><div>數量</div>
+        </div>
+        <div class="prod-row" data-id="4" data-price="21" data-name="抗菌親膚嬰兒帽" data-spec="10.5×14.5cm" data-stock="411">
+          <div class="prod-num">4</div>
+          <div class="prod-info">
+            <div class="prod-name">抗菌親膚嬰兒帽</div>
+            <div class="prod-spec">10.5×14.5cm <span class="prod-code">AB2001101-ORI-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">411</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">21 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(4,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-4" value="0" min="0" max="411" oninput="updateCart(4)">
+            <button class="qty-btn" onclick="changeQty(4,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="5" data-price="16" data-name="抗菌護腕" data-spec="8×7cm" data-stock="244">
+          <div class="prod-num">5</div>
+          <div class="prod-info">
+            <div class="prod-name">抗菌護腕</div>
+            <div class="prod-spec">8×7cm <span class="prod-code">AB2001102-ORI-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">244</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">16 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(5,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-5" value="0" min="0" max="244" oninput="updateCart(5)">
+            <button class="qty-btn" onclick="changeQty(5,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="6" data-price="28" data-name="抗菌髮束帶" data-spec="8×24cm" data-stock="1984">
+          <div class="prod-num">6</div>
+          <div class="prod-info">
+            <div class="prod-name">抗菌髮束帶</div>
+            <div class="prod-spec">8×24cm・23.8g/條 <span class="prod-code">AB2001153-ORI-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">1984</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">28 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(6,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-6" value="0" min="0" max="1984" oninput="updateCart(6)">
+            <button class="qty-btn" onclick="changeQty(6,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="9" data-price="58" data-name="ACT護肘" data-spec="" data-stock="228">
+          <div class="prod-num">9</div>
+          <div class="prod-info">
+            <div class="prod-name">ACT護肘</div>
+            <div class="prod-spec"><span class="prod-code">AB2101725-ORI-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">228</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">58 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(9,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-9" value="0" min="0" max="228" oninput="updateCart(9)">
+            <button class="qty-btn" onclick="changeQty(9,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="10" data-price="39" data-name="ACT護腕" data-spec="" data-stock="244">
+          <div class="prod-num">10</div>
+          <div class="prod-info">
+            <div class="prod-name">ACT護腕</div>
+            <div class="prod-spec"><span class="prod-code">AB2101726-ORI-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">244</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">39 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(10,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-10" value="0" min="0" max="244" oninput="updateCart(10)">
+            <button class="qty-btn" onclick="changeQty(10,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="24" data-price="50" data-name="ACT觸控手套 M" data-spec="尺寸 M" data-stock="88">
+          <div class="prod-num">24</div>
+          <div class="prod-info">
+            <div class="prod-name">ACT觸控手套</div>
+            <div class="prod-spec">尺寸 M <span class="prod-code">AB2101731-ORI-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">88</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">50 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(24,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-24" value="0" min="0" max="88" oninput="updateCart(24)">
+            <button class="qty-btn" onclick="changeQty(24,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="25" data-price="50" data-name="ACT觸控手套 L" data-spec="尺寸 L" data-stock="17">
+          <div class="prod-num">25</div>
+          <div class="prod-info">
+            <div class="prod-name">ACT觸控手套</div>
+            <div class="prod-spec">尺寸 L <span class="prod-code">AB2101732-ORI</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-low">17</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">50 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(25,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-25" value="0" min="0" max="17" oninput="updateCart(25)">
+            <button class="qty-btn" onclick="changeQty(25,1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 圍巾 -->
+    <div class="cat-section">
+      <div class="cat-header">
+        <span class="cat-badge">SCARF</span>
+        <span class="cat-title">抗菌羊毛圍巾</span>
+        <span class="cat-count">2 件商品</span>
+      </div>
+      <div class="products-table">
+        <div class="prod-row header-row">
+          <div>#</div><div>商品</div><div>庫存</div><div>員工價</div><div>數量</div>
+        </div>
+        <div class="prod-row" data-id="7" data-price="204" data-name="抗菌羊毛圍巾（灰）" data-spec="灰色" data-stock="76">
+          <div class="prod-num">7</div>
+          <div class="prod-info">
+            <div class="prod-name">抗菌羊毛圍巾</div>
+            <div class="prod-spec">灰色 <span class="prod-code">AB2101101-GRY-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">76</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">204 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(7,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-7" value="0" min="0" max="76" oninput="updateCart(7)">
+            <button class="qty-btn" onclick="changeQty(7,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="8" data-price="204" data-name="抗菌羊毛圍巾（綠）" data-spec="綠色" data-stock="68">
+          <div class="prod-num">8</div>
+          <div class="prod-info">
+            <div class="prod-name">抗菌羊毛圍巾</div>
+            <div class="prod-spec">綠色 <span class="prod-code">AB2101102-GRN-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">68</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">204 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(8,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-8" value="0" min="0" max="68" oninput="updateCart(8)">
+            <button class="qty-btn" onclick="changeQty(8,1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 襪品 -->
+    <div class="cat-section">
+      <div class="cat-header">
+        <span class="cat-badge">SOCKS</span>
+        <span class="cat-title">抗菌襪品</span>
+        <span class="cat-count">13 件商品</span>
+      </div>
+      <div class="products-table">
+        <div class="prod-row header-row">
+          <div>#</div><div>商品</div><div>庫存</div><div>員工價</div><div>數量</div>
+        </div>
+        <div class="prod-row" data-id="11" data-price="23" data-name="抗菌寬口襪-大童" data-spec="18-21cm 大童" data-stock="1296">
+          <div class="prod-num">11</div>
+          <div class="prod-info">
+            <div class="prod-name">抗菌寬口襪</div>
+            <div class="prod-spec">18–21cm（大童）<span class="prod-code">AB2001143-BLK-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">1296</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">23 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(11,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-11" value="0" min="0" max="1296" oninput="updateCart(11)">
+            <button class="qty-btn" onclick="changeQty(11,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="12" data-price="23" data-name="抗菌寬口襪-小童" data-spec="15-18cm 小童" data-stock="1385">
+          <div class="prod-num">12</div>
+          <div class="prod-info">
+            <div class="prod-name">抗菌寬口襪</div>
+            <div class="prod-spec">15–18cm（小童）<span class="prod-code">AB2001144-BLK-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">1385</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">23 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(12,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-12" value="0" min="0" max="1385" oninput="updateCart(12)">
+            <button class="qty-btn" onclick="changeQty(12,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="13" data-price="23" data-name="抗菌帆船襪-大童" data-spec="18-21cm 大童" data-stock="1347">
+          <div class="prod-num">13</div>
+          <div class="prod-info">
+            <div class="prod-name">抗菌帆船襪</div>
+            <div class="prod-spec">18–21cm（大童）<span class="prod-code">AB2001146-BLK-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">1347</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">23 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(13,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-13" value="0" min="0" max="1347" oninput="updateCart(13)">
+            <button class="qty-btn" onclick="changeQty(13,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="14" data-price="23" data-name="抗菌帆船襪-小童" data-spec="15-18cm 小童" data-stock="1384">
+          <div class="prod-num">14</div>
+          <div class="prod-info">
+            <div class="prod-name">抗菌帆船襪</div>
+            <div class="prod-spec">15–18cm（小童）<span class="prod-code">AB2001147-BLK-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">1384</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">23 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(14,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-14" value="0" min="0" max="1384" oninput="updateCart(14)">
+            <button class="qty-btn" onclick="changeQty(14,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="15" data-price="30" data-name="抗菌羊毛厚底襪（綠）" data-spec="綠色" data-stock="232">
+          <div class="prod-num">15</div>
+          <div class="prod-info">
+            <div class="prod-name">抗菌羊毛厚底襪</div>
+            <div class="prod-spec">綠色 <span class="prod-code">AB2101104-GRN-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">232</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">30 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(15,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-15" value="0" min="0" max="232" oninput="updateCart(15)">
+            <button class="qty-btn" onclick="changeQty(15,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="16" data-price="23" data-name="嚇死細菌百搭中筒襪-小童" data-spec="15-18cm 小童" data-stock="55">
+          <div class="prod-num">16</div>
+          <div class="prod-info">
+            <div class="prod-name">嚇死細菌百搭中筒襪</div>
+            <div class="prod-spec">15–18cm（小童）<span class="prod-code">AB2101105-ORI-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">55</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">23 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(16,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-16" value="0" min="0" max="55" oninput="updateCart(16)">
+            <button class="qty-btn" onclick="changeQty(16,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="17" data-price="23" data-name="嚇死細菌百搭中筒襪-大童" data-spec="18-21cm 大童" data-stock="37">
+          <div class="prod-num">17</div>
+          <div class="prod-info">
+            <div class="prod-name">嚇死細菌百搭中筒襪</div>
+            <div class="prod-spec">18–21cm（大童）<span class="prod-code">AB2101106-ORI-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-low">37</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">23 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(17,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-17" value="0" min="0" max="37" oninput="updateCart(17)">
+            <button class="qty-btn" onclick="changeQty(17,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="18" data-price="23" data-name="香香文青灰中筒襪-小童" data-spec="15-18cm 小童" data-stock="50">
+          <div class="prod-num">18</div>
+          <div class="prod-info">
+            <div class="prod-name">香香文青灰中筒襪</div>
+            <div class="prod-spec">15–18cm（小童）<span class="prod-code">AB2101110-ORI-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">50</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">23 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(18,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-18" value="0" min="0" max="50" oninput="updateCart(18)">
+            <button class="qty-btn" onclick="changeQty(18,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="19" data-price="23" data-name="香香文青灰中筒襪-大童" data-spec="18-21cm 大童" data-stock="49">
+          <div class="prod-num">19</div>
+          <div class="prod-info">
+            <div class="prod-name">香香文青灰中筒襪</div>
+            <div class="prod-spec">18–21cm（大童）<span class="prod-code">AB2101111-ORI-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">49</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">23 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(19,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-19" value="0" min="0" max="49" oninput="updateCart(19)">
+            <button class="qty-btn" onclick="changeQty(19,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="20" data-price="23" data-name="毛巾厚底船型襪-小童" data-spec="15-18cm 小童" data-stock="53">
+          <div class="prod-num">20</div>
+          <div class="prod-info">
+            <div class="prod-name">毛巾厚底船型襪</div>
+            <div class="prod-spec">15–18cm（小童）<span class="prod-code">AB2101115-GRY-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">53</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">23 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(20,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-20" value="0" min="0" max="53" oninput="updateCart(20)">
+            <button class="qty-btn" onclick="changeQty(20,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="21" data-price="23" data-name="毛巾厚底船型襪-大童" data-spec="18-21cm 大童" data-stock="34">
+          <div class="prod-num">21</div>
+          <div class="prod-info">
+            <div class="prod-name">毛巾厚底船型襪</div>
+            <div class="prod-spec">18–21cm（大童）<span class="prod-code">AB2101116-GRY-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-low">34</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">23 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(21,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-21" value="0" min="0" max="34" oninput="updateCart(21)">
+            <button class="qty-btn" onclick="changeQty(21,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="22" data-price="41" data-name="ACT寬口中筒襪 M" data-spec="20-24cm (M)" data-stock="701">
+          <div class="prod-num">22</div>
+          <div class="prod-info">
+            <div class="prod-name">ACT寬口中筒襪</div>
+            <div class="prod-spec">20–24cm（M）<span class="prod-code">AB2101727-ORI-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">701</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">41 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(22,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-22" value="0" min="0" max="701" oninput="updateCart(22)">
+            <button class="qty-btn" onclick="changeQty(22,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="23" data-price="41" data-name="ACT寬口中筒襪 L" data-spec="25-28cm (L)" data-stock="429">
+          <div class="prod-num">23</div>
+          <div class="prod-info">
+            <div class="prod-name">ACT寬口中筒襪</div>
+            <div class="prod-spec">25–28cm（L）<span class="prod-code">AB2101728-ORI-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">429</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">41 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(23,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-23" value="0" min="0" max="429" oninput="updateCart(23)">
+            <button class="qty-btn" onclick="changeQty(23,1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 毛巾 -->
+    <div class="cat-section">
+      <div class="cat-header">
+        <span class="cat-badge">TOWEL</span>
+        <span class="cat-title">抗菌毛巾浴巾</span>
+        <span class="cat-count">10 件商品</span>
+      </div>
+      <div class="products-table">
+        <div class="prod-row header-row">
+          <div>#</div><div>商品</div><div>庫存</div><div>員工價</div><div>數量</div>
+        </div>
+        <div class="prod-row" data-id="26" data-price="34" data-name="抗菌小毛巾-素面" data-spec="34×34cm 素面" data-stock="577">
+          <div class="prod-num">26</div>
+          <div class="prod-info">
+            <div class="prod-name">抗菌小毛巾</div>
+            <div class="prod-spec">34×34cm・素面 <span class="prod-code">AC2001202</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">577</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">34 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(26,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-26" value="0" min="0" max="577" oninput="updateCart(26)">
+            <button class="qty-btn" onclick="changeQty(26,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="27" data-price="34" data-name="抗菌小毛巾-緹花" data-spec="34×34cm 緹花" data-stock="896">
+          <div class="prod-num">27</div>
+          <div class="prod-info">
+            <div class="prod-name">抗菌小毛巾</div>
+            <div class="prod-spec">34×34cm・緹花 <span class="prod-code">AC2001206</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">896</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">34 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(27,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-27" value="0" min="0" max="896" oninput="updateCart(27)">
+            <button class="qty-btn" onclick="changeQty(27,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="28" data-price="34" data-name="抗菌小毛巾-素面雙面ACT" data-spec="34×34cm 素面雙面ACT" data-stock="800">
+          <div class="prod-num">28</div>
+          <div class="prod-info">
+            <div class="prod-name">抗菌小毛巾</div>
+            <div class="prod-spec">34×34cm・素面（雙面ACT紗線）<span class="prod-code">AC2101203</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">800</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">34 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(28,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-28" value="0" min="0" max="800" oninput="updateCart(28)">
+            <button class="qty-btn" onclick="changeQty(28,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="29" data-price="52" data-name="抗菌毛巾-緹花原色/藍" data-spec="34×76cm 緹花原色/藍" data-stock="360">
+          <div class="prod-num">29</div>
+          <div class="prod-info">
+            <div class="prod-name">抗菌毛巾</div>
+            <div class="prod-spec">34×76cm・緹花（原色/藍）<span class="prod-code">AC2001203</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">360</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">52 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(29,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-29" value="0" min="0" max="360" oninput="updateCart(29)">
+            <button class="qty-btn" onclick="changeQty(29,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="30" data-price="52" data-name="抗菌毛巾-緹花原色/綠雙面" data-spec="34×76cm 雙面ACT" data-stock="768">
+          <div class="prod-num">30</div>
+          <div class="prod-info">
+            <div class="prod-name">抗菌毛巾</div>
+            <div class="prod-spec">34×76cm・緹花（原色/綠）雙面ACT <span class="prod-code">AC2101200</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">768</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">52 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(30,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-30" value="0" min="0" max="768" oninput="updateCart(30)">
+            <button class="qty-btn" onclick="changeQty(30,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="31" data-price="83" data-name="抗菌運動毛巾-緹花原色/藍" data-spec="34×110cm 原色/藍" data-stock="748">
+          <div class="prod-num">31</div>
+          <div class="prod-info">
+            <div class="prod-name">抗菌運動毛巾</div>
+            <div class="prod-spec">34×110cm・緹花（原色/藍）<span class="prod-code">AC2001204</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">748</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">83 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(31,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-31" value="0" min="0" max="748" oninput="updateCart(31)">
+            <button class="qty-btn" onclick="changeQty(31,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="32" data-price="83" data-name="抗菌運動毛巾-緹花黑/藍" data-spec="34×110cm 黑/藍" data-stock="108">
+          <div class="prod-num">32</div>
+          <div class="prod-info">
+            <div class="prod-name">抗菌運動毛巾</div>
+            <div class="prod-spec">34×110cm・緹花（黑/藍）<span class="prod-code">AC2001216</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">108</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">83 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(32,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-32" value="0" min="0" max="108" oninput="updateCart(32)">
+            <button class="qty-btn" onclick="changeQty(32,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="33" data-price="83" data-name="抗菌運動毛巾-緹花原色/綠雙面" data-spec="34×110cm 雙面ACT" data-stock="909">
+          <div class="prod-num">33</div>
+          <div class="prod-info">
+            <div class="prod-name">抗菌運動毛巾</div>
+            <div class="prod-spec">34×110cm・緹花（原色/綠）雙面ACT <span class="prod-code">AC2101201</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">909</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">83 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(33,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-33" value="0" min="0" max="909" oninput="updateCart(33)">
+            <button class="qty-btn" onclick="changeQty(33,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="34" data-price="179" data-name="抗菌浴巾-緹花" data-spec="緹花" data-stock="2204">
+          <div class="prod-num">34</div>
+          <div class="prod-info">
+            <div class="prod-name">抗菌浴巾</div>
+            <div class="prod-spec">緹花 <span class="prod-code">AC2001205</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">2204</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">179 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(34,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-34" value="0" min="0" max="2204" oninput="updateCart(34)">
+            <button class="qty-btn" onclick="changeQty(34,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="35" data-price="179" data-name="抗菌浴巾-緹花原色/綠雙面" data-spec="緹花原色/綠 雙面ACT" data-stock="311">
+          <div class="prod-num">35</div>
+          <div class="prod-info">
+            <div class="prod-name">抗菌浴巾</div>
+            <div class="prod-spec">緹花（原色/綠）雙面ACT <span class="prod-code">AC2101202</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">311</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">179 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(35,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-35" value="0" min="0" max="311" oninput="updateCart(35)">
+            <button class="qty-btn" onclick="changeQty(35,1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 居家 -->
+    <div class="cat-section">
+      <div class="cat-header">
+        <span class="cat-badge">HOME</span>
+        <span class="cat-title">居家用品</span>
+        <span class="cat-count">3 件商品</span>
+      </div>
+      <div class="products-table">
+        <div class="prod-row header-row">
+          <div>#</div><div>商品</div><div>庫存</div><div>員工價</div><div>數量</div>
+        </div>
+        <div class="prod-row" data-id="36" data-price="69" data-name="ACTife抗菌除臭地墊-緹花款" data-spec="20%ACT 緹花款" data-stock="181">
+          <div class="prod-num">36</div>
+          <div class="prod-info">
+            <div class="prod-name">ACTife居家抗菌除臭地墊</div>
+            <div class="prod-spec">緹花款・20%ACT <span class="prod-code">AC2101217-ORI-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">181</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">69 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(36,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-36" value="0" min="0" max="181" oninput="updateCart(36)">
+            <button class="qty-btn" onclick="changeQty(36,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="37" data-price="119" data-name="ACTife抗菌除臭地墊-腳踏墊" data-spec="25%ACT 深灰色 腳踏墊" data-stock="383">
+          <div class="prod-num">37</div>
+          <div class="prod-info">
+            <div class="prod-name">ACTife居家抗菌除臭地墊</div>
+            <div class="prod-spec">腳踏墊款・25%ACT・深灰 <span class="prod-code">AC2101218-GRY-F</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">383</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">119 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(37,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-37" value="0" min="0" max="383" oninput="updateCart(37)">
+            <button class="qty-btn" onclick="changeQty(37,1)">+</button>
+          </div>
+        </div>
+        <div class="prod-row" data-id="38" data-price="65" data-name="ACT銀銅鈦濾網-家庭捲筒式" data-spec="38×470cm 捲筒式" data-stock="5578">
+          <div class="prod-num">38</div>
+          <div class="prod-info">
+            <div class="prod-name">ACT銀銅鈦濾網</div>
+            <div class="prod-spec">家庭捲筒式・38×470cm <span class="prod-code">L0380P2004_7</span></div>
+          </div>
+          <div class="prod-stock"><div class="stock-ok">5578</div><div class="stock-label">庫存</div></div>
+          <div class="prod-price">65 <span class="price-unit">元</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(38,-1)">−</button>
+            <input class="qty-input" type="number" id="qty-38" value="0" min="0" max="5578" oninput="updateCart(38)">
+            <button class="qty-btn" onclick="changeQty(38,1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /products-col -->
+
+  <!-- Right: Cart + Form -->
+  <div class="sidebar">
+    <div class="cart-panel">
+      <div class="panel-head">購物清單 <span id="item-count-label">尚未選購</span></div>
+      <div id="cart-items"></div>
+      <div class="cart-summary">
+        <div class="summary-row"><span>商品件數</span><span id="sum-qty">0 件</span></div>
+        <div class="summary-row total"><span>合計</span><span class="amount" id="sum-total">NT$ 0</span></div>
+      </div>
+      <div class="order-form">
+        <div class="form-group">
+          <label class="form-label">姓名<span class="req">*</span></label>
+          <input class="form-input" type="text" id="f-name" placeholder="請輸入您的姓名">
+        </div>
+        <div class="form-group">
+          <label class="form-label">部門<span class="req">*</span></label>
+          <input class="form-input" type="text" id="f-dept" placeholder="所屬部門">
+        </div>
+        <div class="form-group">
+          <label class="form-label">員工編號</label>
+          <input class="form-input" type="text" id="f-empid" placeholder="選填">
+        </div>
+        <div class="form-group">
+          <label class="form-label">分機 / 聯絡電話</label>
+          <input class="form-input" type="text" id="f-phone" placeholder="選填">
+        </div>
+        <div class="form-group">
+          <label class="form-label">備註</label>
+          <input class="form-input" type="text" id="f-note" placeholder="特殊需求、領取方式等">
+        </div>
+        <button class="submit-btn" id="submit-btn" onclick="handleSubmit()">確認送出訂單</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main-content -->
+
+<!-- ── Admin panel ── -->
+<button id="admin-toggle" title="管理員設定" onclick="toggleAdmin()">⚙</button>
+<div id="admin-panel">
+  <div class="admin-title">管理員設定・Google Sheets 整合</div>
+  <div id="admin-status-box" class="admin-status empty">⚠ 尚未設定 Apps Script URL</div>
+  <input class="admin-url-input" id="admin-url-input" type="text" placeholder="https://script.google.com/macros/s/.../exec">
+  <button class="admin-save-btn" onclick="saveAdminUrl()">儲存 URL</button>
+  <button class="admin-clear-btn" onclick="clearAdminUrl()">清除設定</button>
+</div>
+
+<!-- ── Order confirm modal ── -->
+<div id="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 id="modal-title">確認您的訂單</h3>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div id="modal-body-wrap" class="modal-body">
+      <!-- filled by JS -->
+    </div>
+    <div id="modal-footer" class="modal-footer">
+      <button class="modal-print-btn" onclick="closeModal()">返回修改</button>
+      <button class="modal-confirm-btn" onclick="confirmOrder()">確定送出 ✓</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Product data (mirrors HTML) ──
+const products = {};
+document.querySelectorAll('.prod-row[data-id]').forEach(row => {
+  const id = +row.dataset.id;
+  products[id] = {
+    name: row.dataset.name,
+    spec: row.dataset.spec,
+    price: +row.dataset.price,
+    stock: +row.dataset.stock
+  };
+});
+
+const cart = {};
+
+function changeQty(id, delta) {
+  const input = document.getElementById('qty-' + id);
+  let val = (parseInt(input.value) || 0) + delta;
+  val = Math.max(0, Math.min(val, products[id].stock));
+  input.value = val;
+  updateCart(id);
+}
+
+function updateCart(id) {
+  const input = document.getElementById('qty-' + id);
+  let val = parseInt(input.value) || 0;
+  const stock = products[id].stock;
+  val = Math.max(0, Math.min(val, stock));
+  input.value = val;
+  if (val > 0) cart[id] = val;
+  else delete cart[id];
+
+  // Update +/− button states and max-stock hint
+  const row = input.closest('.prod-row');
+  const plusBtn = row.querySelector('.qty-btn:last-child');
+  const minusBtn = row.querySelector('.qty-btn:first-child');
+  const hint = row.querySelector('.stock-full-hint');
+
+  if (plusBtn) plusBtn.disabled = (val >= stock);
+  if (minusBtn) minusBtn.disabled = (val <= 0);
+  if (hint) {
+    if (val >= stock && stock > 0) {
+      hint.style.display = 'block';
+    } else {
+      hint.style.display = 'none';
+    }
+  }
+
+  renderCart();
+}
+
+// On page load: mark sold-out items and init button states
+function initStockStates() {
+  document.querySelectorAll('.prod-row[data-id]').forEach(row => {
+    const id = +row.dataset.id;
+    const stock = products[id].stock;
+    const qtyCtrl = row.querySelector('.qty-control');
+    const plusBtn = row.querySelector('.qty-btn:last-child');
+    const minusBtn = row.querySelector('.qty-btn:first-child');
+
+    if (stock === 0) {
+      // Replace qty control with sold-out badge
+      if (qtyCtrl) {
+        const badge = document.createElement('span');
+        badge.className = 'sold-out-badge';
+        badge.textContent = '已售完';
+        qtyCtrl.replaceWith(badge);
+      }
+      row.classList.add('sold-out');
+    } else {
+      // Init: minus starts disabled (qty=0), plus enabled
+      if (minusBtn) minusBtn.disabled = true;
+      if (plusBtn) plusBtn.disabled = false;
+      // Add hint element after qty-control
+      if (qtyCtrl && !row.querySelector('.stock-full-hint')) {
+        const hint = document.createElement('div');
+        hint.className = 'stock-full-hint';
+        hint.textContent = '已達庫存上限';
+        qtyCtrl.insertAdjacentElement('afterend', hint);
+      }
+    }
+  });
+}
+initStockStates();
+
+function renderCart() {
+  const container = document.getElementById('cart-items');
+  const countLabel = document.getElementById('item-count-label');
+  const sumQty = document.getElementById('sum-qty');
+  const sumTotal = document.getElementById('sum-total');
+
+  const ids = Object.keys(cart).map(Number);
+  if (ids.length === 0) {
+    container.innerHTML = '';
+    countLabel.textContent = '尚未選購';
+    sumQty.textContent = '0 件';
+    sumTotal.textContent = 'NT$ 0';
+    return;
+  }
+
+  let html = '';
+  let totalQty = 0, totalAmt = 0;
+  ids.forEach(id => {
+    const q = cart[id], p = products[id];
+    const subtotal = q * p.price;
+    totalQty += q; totalAmt += subtotal;
+    html += `<div class="cart-item">
+      <div>
+        <div class="cart-item-name">${p.name}</div>
+        ${p.spec ? `<div class="cart-item-detail">${p.spec}</div>` : ''}
+      </div>
+      <div class="cart-item-total">×${q}<br><small>NT$${subtotal}</small></div>
+    </div>`;
+  });
+
+  container.innerHTML = html;
+  countLabel.textContent = `共 ${ids.length} 種商品`;
+  sumQty.textContent = `${totalQty} 件`;
+  sumTotal.textContent = `NT$ ${totalAmt.toLocaleString()}`;
+}
+
+function handleSubmit() {
+  const name = document.getElementById('f-name').value.trim();
+  const dept = document.getElementById('f-dept').value.trim();
+
+  // Validate
+  let ok = true;
+  ['f-name','f-dept'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el.value.trim()) { el.classList.add('error'); ok = false; }
+    else el.classList.remove('error');
+  });
+  if (!ok) { document.getElementById('f-name').focus(); return; }
+
+  if (Object.keys(cart).length === 0) {
+    alert('請先選購至少一項商品。');
+    return;
+  }
+
+  // Build modal
+  const phone = document.getElementById('f-phone').value.trim();
+  const empid = document.getElementById('f-empid').value.trim();
+  const note  = document.getElementById('f-note').value.trim();
+
+  let totalAmt = 0, totalQty = 0;
+  let itemsHtml = Object.keys(cart).map(id => {
+    const q = cart[+id], p = products[+id];
+    const sub = q * p.price;
+    totalAmt += sub; totalQty += q;
+    return `<div class="modal-item-row">
+      <div><strong>${p.name}</strong>${p.spec ? `<br><small style="color:var(--text-muted)">${p.spec}</small>` : ''}</div>
+      <div style="text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums">
+        <span style="color:var(--text-muted)">×${q} × NT$${p.price}</span><br>
+        <strong>NT$ ${sub.toLocaleString()}</strong>
+      </div>
+    </div>`;
+  }).join('');
+
+  const orderDate = new Date().toLocaleString('zh-TW',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+
+  document.getElementById('modal-body-wrap').innerHTML = `
+    <div class="modal-info">
+      <div class="modal-info-row"><span class="modal-info-label">姓名</span><span class="modal-info-val">${name}</span></div>
+      <div class="modal-info-row"><span class="modal-info-label">部門</span><span class="modal-info-val">${dept}</span></div>
+      ${empid ? `<div class="modal-info-row"><span class="modal-info-label">員工編號</span><span class="modal-info-val">${empid}</span></div>` : ''}
+      ${phone ? `<div class="modal-info-row"><span class="modal-info-label">聯絡電話</span><span class="modal-info-val">${phone}</span></div>` : ''}
+      ${note ? `<div class="modal-info-row"><span class="modal-info-label">備註</span><span class="modal-info-val">${note}</span></div>` : ''}
+      <div class="modal-info-row"><span class="modal-info-label">下單時間</span><span class="modal-info-val">${orderDate}</span></div>
+    </div>
+    <div class="modal-items-title">訂購明細（共 ${totalQty} 件）</div>
+    ${itemsHtml}
+    <div class="modal-total-row"><span>訂單合計</span><span>NT$ ${totalAmt.toLocaleString()}</span></div>
+  `;
+
+  document.getElementById('modal-title').textContent = '確認您的訂單';
+  document.getElementById('modal-footer').style.display = 'flex';
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+
+async function confirmOrder() {
+  const now = new Date();
+  const pad = n => String(n).padStart(2,'0');
+  const orderId = `ACT${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}-${Math.floor(1000+Math.random()*9000)}`;
+
+  const confirmBtn = document.querySelector('.modal-confirm-btn');
+  confirmBtn.disabled = true;
+  confirmBtn.textContent = '送出中…';
+
+  // Build order payload
+  const name  = document.getElementById('f-name').value.trim();
+  const dept  = document.getElementById('f-dept').value.trim();
+  const empId = document.getElementById('f-empid').value.trim();
+  const phone = document.getElementById('f-phone').value.trim();
+  const note  = document.getElementById('f-note').value.trim();
+  const orderTime = now.toLocaleString('zh-TW',{timeZone:'Asia/Taipei'});
+
+  let totalQty = 0, totalAmt = 0;
+  const itemsSummary = Object.keys(cart).map(id => {
+    const q = cart[+id], p = products[+id];
+    totalQty += q; totalAmt += q * p.price;
+    return `${p.name}${p.spec ? '（'+p.spec+'）' : ''} ×${q}`;
+  }).join('；');
+
+  const payload = { orderId, orderTime, name, dept, empId, phone, note, itemsSummary, totalQty, totalAmt };
+
+  // Send to Google Sheets — default URL hardcoded, admin panel can override
+  const DEFAULT_URL = 'https://script.google.com/macros/s/AKfycbyngMgOBAX2ufdqKdX-ThECiK4pbKCsOnlyjxbo_Oxx0TysIN-C1mypA9nB1hA1l7I7/exec';
+  const scriptUrl = (() => { try { return localStorage.getItem('act_script_url') || DEFAULT_URL; } catch(e) { return DEFAULT_URL; } })();
+  let sheetOk = false;
+  if (scriptUrl) {
+    try {
+      const res = await fetch(scriptUrl, {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
+      const json = await res.json();
+      sheetOk = json.success === true;
+    } catch(e) {
+      sheetOk = false;
+    }
+  }
+
+  document.getElementById('modal-title').textContent = '訂單已送出';
+  document.getElementById('modal-footer').style.display = 'none';
+  document.getElementById('modal-body-wrap').innerHTML = `
+    <div class="success-msg">
+      <div class="success-icon">✅</div>
+      <h3>感謝您的訂購！</h3>
+      <div class="success-order-id">訂單編號：${orderId}</div>
+      ${scriptUrl
+        ? (sheetOk
+          ? '<p style="font-size:12px;color:var(--brand)">✓ 已寫入 Google Sheets</p>'
+          : '<p style="font-size:12px;color:var(--amber)">⚠ Sheets 寫入失敗，請截圖此頁面保存記錄</p>')
+        : ''}
+      <p>您的訂單已成功送出，相關人員將於截止後<br>統一彙整並通知領取事宜。</p>
+      <p style="font-size:12px;color:var(--text-muted)">如有疑問請保存此訂單編號</p>
+    </div>
+  `;
+}
+
+// ── Admin panel ──
+function toggleAdmin() {
+  document.getElementById('admin-panel').classList.toggle('open');
+}
+
+function refreshAdminStatus() {
+  const url = (() => { try { return localStorage.getItem('act_script_url') || ''; } catch(e) { return ''; } })();
+  const box = document.getElementById('admin-status-box');
+  const input = document.getElementById('admin-url-input');
+  if (url) {
+    box.className = 'admin-status ok';
+    box.textContent = '✓ 已設定 Apps Script URL';
+    input.value = url;
+  } else {
+    box.className = 'admin-status empty';
+    box.textContent = '⚠ 尚未設定 Apps Script URL';
+    input.value = '';
+  }
+}
+
+function saveAdminUrl() {
+  const url = document.getElementById('admin-url-input').value.trim();
+  if (!url.startsWith('https://script.google.com/')) {
+    alert('請貼入正確的 Google Apps Script URL（以 https://script.google.com/ 開頭）');
+    return;
+  }
+  try { localStorage.setItem('act_script_url', url); } catch(e) {}
+  refreshAdminStatus();
+  alert('✓ URL 已儲存！之後的訂單將自動寫入 Google Sheets。');
+  document.getElementById('admin-panel').classList.remove('open');
+}
+
+function clearAdminUrl() {
+  if (!confirm('確定要清除 Google Sheets 設定嗎？')) return;
+  try { localStorage.removeItem('act_script_url'); } catch(e) {}
+  refreshAdminStatus();
+}
+
+refreshAdminStatus();
+
+// ── Countdown ──
+const DEADLINE = new Date('2026-09-18T23:59:59+08:00');
+
+function updateCountdown() {
+  const now = new Date();
+  const diff = DEADLINE - now;
+
+  if (diff <= 0) {
+    // Closed
+    document.getElementById('main-content').style.display = 'none';
+    document.getElementById('closed-state').style.display = 'flex';
+    document.getElementById('countdown-bar').innerHTML = '<span style="color:#fff;font-size:13px;font-weight:600">⛔ 已截止</span>';
+    clearInterval(cdTimer);
+    return;
+  }
+
+  const days  = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  const mins  = Math.floor((diff % 3600000) / 60000);
+  const secs  = Math.floor((diff % 60000) / 1000);
+
+  const pad = n => String(n).padStart(2,'0');
+  document.getElementById('cd-d').textContent = days;
+  document.getElementById('cd-h').textContent = pad(hours);
+  document.getElementById('cd-m').textContent = pad(mins);
+  document.getElementById('cd-s').textContent = pad(secs);
+
+  // Amber when ≤ 24h
+  const bar = document.getElementById('countdown-bar');
+  if (diff < 86400000) bar.classList.add('amber');
+  else bar.classList.remove('amber');
+}
+
+updateCountdown();
+const cdTimer = setInterval(updateCountdown, 1000);
+
+// Close modal on overlay click
+document.getElementById('modal-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// Clear error on input
+['f-name','f-dept'].forEach(id => {
+  document.getElementById(id).addEventListener('input', function() {
+    this.classList.remove('error');
+  });
+});
+</script>
