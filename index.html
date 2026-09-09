@@ -1484,6 +1484,10 @@ document.querySelectorAll('.prod-row[data-id]').forEach(row => {
   };
 });
 
+// Store initial stock values (from HTML data attributes, before any server adjustment)
+const initialStock = {};
+Object.keys(products).forEach(id => { initialStock[id] = products[id].stock; });
+
 const cart = {};
 
 function changeQty(id, delta) {
@@ -1521,6 +1525,66 @@ function updateCart(id) {
 
   renderCart();
 }
+
+// ── Server-side stock sync ──
+function applyServerStock(totals) {
+  document.querySelectorAll('.prod-row[data-id]').forEach(row => {
+    const id = +row.dataset.id;
+    const ordered = totals[String(id)] || totals[id] || 0;
+    const remaining = Math.max(0, (initialStock[id] || 0) - ordered);
+
+    // Update runtime stock value
+    products[id].stock = remaining;
+
+    // Update stock number display
+    const stockEl = row.querySelector('.stock-ok');
+    if (stockEl) stockEl.textContent = remaining;
+
+    // Update qty input max
+    const input = document.getElementById(`qty-${id}`);
+    if (input) input.max = remaining;
+
+    const qtyCtrl = row.querySelector('.qty-control');
+
+    if (remaining === 0 && !row.classList.contains('sold-out')) {
+      // Newly depleted: replace qty control with sold-out badge
+      if (qtyCtrl) {
+        const badge = document.createElement('span');
+        badge.className = 'sold-out-badge';
+        badge.textContent = '已售完';
+        qtyCtrl.replaceWith(badge);
+      }
+      row.classList.add('sold-out');
+      // Remove from cart if it was added
+      if (cart[id]) { delete cart[id]; renderCart(); }
+    } else if (remaining > 0) {
+      // Clamp cart if exceeds new remaining
+      if (cart[id] && cart[id] > remaining) {
+        cart[id] = remaining;
+        if (input) input.value = remaining;
+        renderCart();
+      }
+      // Update + button state
+      const plusBtn = row.querySelector('.qty-btn:last-child');
+      if (plusBtn) plusBtn.disabled = (cart[id] || 0) >= remaining;
+    }
+  });
+}
+
+async function fetchServerStock() {
+  const DEFAULT_URL = 'https://script.google.com/macros/s/AKfycbyngMgOBAX2ufdqKdX-ThECiK4pbKCsOnlyjxbo_Oxx0TysIN-C1mypA9nB1hA1l7I7/exec';
+  const scriptUrl = (() => { try { return localStorage.getItem('act_script_url') || DEFAULT_URL; } catch(e) { return DEFAULT_URL; } })();
+  if (!scriptUrl) return;
+  try {
+    const res = await fetch(scriptUrl);
+    const json = await res.json();
+    if (json.success && json.totals) applyServerStock(json.totals);
+  } catch(e) { /* silent fail — local stock values remain */ }
+}
+
+// Fetch on load, then refresh every 2 minutes
+fetchServerStock();
+setInterval(fetchServerStock, 120000);
 
 // On page load: mark sold-out items and init button states
 function initStockStates() {
@@ -1681,7 +1745,8 @@ async function confirmOrder() {
     return `${p.name}${p.spec ? '（'+p.spec+'）' : ''} ×${q}`;
   }).join('；');
 
-  const payload = { orderId, orderTime, company, name, dept, empId, phone, note, itemsSummary, totalQty, totalAmt, status: '新訂單' };
+  const itemsDetail = JSON.stringify(cart); // {productId: qty} for server-side stock tracking
+  const payload = { orderId, orderTime, company, name, dept, empId, phone, note, itemsSummary, totalQty, totalAmt, status: '新訂單', itemsDetail };
 
   // Send to Google Sheets — default URL hardcoded, admin panel can override
   const DEFAULT_URL = 'https://script.google.com/macros/s/AKfycbyngMgOBAX2ufdqKdX-ThECiK4pbKCsOnlyjxbo_Oxx0TysIN-C1mypA9nB1hA1l7I7/exec';
