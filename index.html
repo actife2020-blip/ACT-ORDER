@@ -337,6 +337,7 @@ header .spacer { flex: 1; }
 }
 .prod-row.sold-out { opacity: 0.55; }
 .prod-row.sold-out .prod-name { text-decoration: line-through; }
+.prod-row.sold-out .prod-stock { display: none; }
 
 /* ── Right sidebar ── */
 .sidebar { display: flex; flex-direction: column; gap: 16px; }
@@ -1554,6 +1555,9 @@ function applyServerStock(totals) {
         badge.textContent = '已售完';
         qtyCtrl.replaceWith(badge);
       }
+      // Hide the stock number display
+      const stockDisplay = row.querySelector('.prod-stock');
+      if (stockDisplay) stockDisplay.style.display = 'none';
       row.classList.add('sold-out');
       // Remove from cart if it was added
       if (cart[id]) { delete cart[id]; renderCart(); }
@@ -1582,7 +1586,23 @@ async function fetchServerStock() {
   } catch(e) { /* silent fail — local stock values remain */ }
 }
 
-// Fetch on load, then refresh every 2 minutes
+// Apply stock deductions from this device's own orders (instant, no server needed)
+function applyLocalOrders() {
+  const orders = getOrders();
+  if (!orders.length) return;
+  const localTotals = {};
+  orders.forEach(order => {
+    const items = order.items; // {productId: qty}
+    if (!items || typeof items !== 'object') return;
+    for (const [id, qty] of Object.entries(items)) {
+      localTotals[id] = (localTotals[id] || 0) + Number(qty);
+    }
+  });
+  if (Object.keys(localTotals).length > 0) applyServerStock(localTotals);
+}
+applyLocalOrders();
+
+// Also fetch from server (cross-device sync) — needs updated Apps Script with doGet
 fetchServerStock();
 setInterval(fetchServerStock, 120000);
 
@@ -1603,6 +1623,9 @@ function initStockStates() {
         badge.textContent = '已售完';
         qtyCtrl.replaceWith(badge);
       }
+      // Hide the stock number display
+      const stockDisplay = row.querySelector('.prod-stock');
+      if (stockDisplay) stockDisplay.style.display = 'none';
       row.classList.add('sold-out');
     } else {
       // Init: minus starts disabled (qty=0), plus enabled
@@ -1765,7 +1788,7 @@ async function confirmOrder() {
     }
   }
 
-  // Save to local orders array
+  // Save to local orders array (include items snapshot for local stock deduction)
   const orderRecord = {
     orderId,
     name,
@@ -1777,6 +1800,7 @@ async function confirmOrder() {
     totalQty,
     totalAmt,
     itemsSummary,
+    items: Object.assign({}, cart), // snapshot of {productId: qty}
     submittedAt: orderTime,
     status: '新訂單'
   };
