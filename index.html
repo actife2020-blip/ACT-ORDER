@@ -539,52 +539,6 @@ header .spacer { flex: 1; }
   font-size: 13px; font-weight: 600; color: var(--brand);
 }
 
-/* ── My Order panel ── */
-.my-order-panel {
-  background: var(--bg-card);
-  border: 1.5px solid var(--border-strong);
-  border-radius: var(--r);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-}
-.my-order-head {
-  background: var(--bg-section);
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--border);
-  display: flex; justify-content: space-between; align-items: center;
-}
-.my-order-head-title { font-size: 13px; font-weight: 700; color: var(--text); }
-.my-order-head-id { font-size: 11px; color: var(--brand); font-weight: 600; font-variant-numeric: tabular-nums; }
-.my-order-body { padding: 12px 16px; }
-.my-order-item { font-size: 13px; color: var(--text-mid); padding: 3px 0; border-bottom: 1px solid var(--border); }
-.my-order-item:last-child { border-bottom: none; }
-.my-order-total { font-size: 15px; font-weight: 700; color: var(--text); margin-top: 10px; padding-top: 10px; border-top: 2px solid var(--border); display: flex; justify-content: space-between; }
-.my-order-empty {
-  padding: 20px 16px;
-  text-align: center;
-  color: var(--text-muted);
-  font-size: 13px;
-  line-height: 1.8;
-}
-.my-order-empty small { font-size: 11px; }
-.my-order-actions { display: flex; gap: 8px; padding: 12px 16px; border-top: 1px solid var(--border); }
-.order-modify-btn {
-  flex: 1; padding: 9px;
-  background: #EBF8FF; color: #2B6CB0;
-  border: 1.5px solid #90CDF4; border-radius: 6px;
-  font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
-  transition: background 0.15s;
-}
-.order-modify-btn:hover { background: #BEE3F8; }
-.order-cancel-btn {
-  flex: 1; padding: 9px;
-  background: #FFF5F5; color: #C53030;
-  border: 1.5px solid #FEB2B2; border-radius: 6px;
-  font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
-  transition: background 0.15s;
-}
-.order-cancel-btn:hover { background: #FED7D7; }
-
 /* ── Admin setup panel ── */
 #admin-toggle {
   position: fixed; bottom: 20px; right: 20px; z-index: 300;
@@ -612,6 +566,98 @@ header .spacer { flex: 1; }
   font-size: 13px;
 }
 #admin-panel.open { display: block; }
+
+/* ── 我的訂單 FAB ── */
+#orders-fab {
+  position: fixed; bottom: 20px; left: 20px; z-index: 300;
+  background: var(--brand);
+  color: #fff;
+  border: none;
+  border-radius: 28px;
+  padding: 12px 20px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(155,14,28,0.35);
+  display: flex; align-items: center; gap: 8px;
+  transition: background 0.2s, transform 0.15s;
+}
+#orders-fab:hover { background: var(--brand-mid); transform: translateY(-2px); }
+#orders-fab.hidden { display: none !important; }
+
+/* ── 我的訂單 Modal ── */
+#orders-overlay {
+  display: none;
+  position: fixed; inset: 0; z-index: 400;
+  background: rgba(0,0,0,0.5);
+  align-items: center; justify-content: center;
+  padding: 20px;
+}
+#orders-overlay.open { display: flex; }
+.orders-box {
+  background: var(--bg-card);
+  border-radius: 14px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.22);
+  width: 100%; max-width: 520px;
+  max-height: 80vh;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.orders-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.orders-head h3 { font-size: 16px; font-weight: 700; color: var(--text); margin: 0; }
+.orders-head .modal-close {
+  background: none; border: none; font-size: 22px; cursor: pointer;
+  color: var(--text-muted); line-height: 1; padding: 0 4px;
+}
+.orders-body {
+  flex: 1 1 auto; overflow-y: auto; padding: 16px 20px;
+}
+.order-card {
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  background: var(--bg-section);
+}
+.order-card-head {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;
+  margin-bottom: 8px;
+}
+.order-card-name { font-size: 15px; font-weight: 700; color: var(--text); }
+.order-card-id { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.order-card-total { font-size: 16px; font-weight: 700; color: var(--brand); white-space: nowrap; }
+.order-card-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
+.order-card-items {
+  font-size: 12px; color: var(--text-mid);
+  background: var(--bg-card);
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 10px;
+  line-height: 1.8;
+}
+.order-cancel-btn {
+  background: none;
+  border: 1.5px solid var(--red);
+  color: var(--red);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.order-cancel-btn:hover { background: var(--red-bg); }
+.orders-empty {
+  text-align: center; padding: 40px 0;
+  color: var(--text-muted); font-size: 14px;
+}
 .admin-title {
   font-size: 11px; font-weight: 700; letter-spacing: 0.8px;
   text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px;
@@ -1377,20 +1423,6 @@ header .spacer { flex: 1; }
         <button class="submit-btn" id="submit-btn" onclick="handleSubmit()">確認送出訂單</button>
       </div>
     </div>
-    <!-- My Order panel (always visible) -->
-    <div class="my-order-panel" id="my-order-panel">
-      <div class="my-order-head">
-        <span class="my-order-head-title">📋 我的訂單</span>
-        <span class="my-order-head-id" id="my-order-id-label"></span>
-      </div>
-      <div class="my-order-body" id="my-order-body">
-        <div class="my-order-empty">尚未有訂單記錄<br><small>送出訂單後可在此修改或取消</small></div>
-      </div>
-      <div class="my-order-actions" id="my-order-actions" style="display:none">
-        <button class="order-modify-btn" onclick="modifyOrder()">✏️ 修改訂單</button>
-        <button class="order-cancel-btn" onclick="cancelOrder()">✕ 取消訂單</button>
-      </div>
-    </div>
   </div>
 
 </div><!-- /main-content -->
@@ -1405,6 +1437,24 @@ header .spacer { flex: 1; }
   <button class="admin-clear-btn" onclick="clearAdminUrl()">清除設定</button>
 </div>
 
+<!-- ── 我的訂單 FAB ── -->
+<button id="orders-fab" class="hidden" onclick="openOrders()">
+  📋 我的訂單 <span id="orders-fab-count"></span>
+</button>
+
+<!-- ── 我的訂單 Modal ── -->
+<div id="orders-overlay">
+  <div class="orders-box">
+    <div class="orders-head">
+      <h3>📋 我的訂單</h3>
+      <button class="modal-close" onclick="closeOrders()">×</button>
+    </div>
+    <div class="orders-body" id="orders-body">
+      <!-- filled by JS -->
+    </div>
+  </div>
+</div>
+
 <!-- ── Order confirm modal ── -->
 <div id="modal-overlay">
   <div class="modal-box">
@@ -1416,8 +1466,7 @@ header .spacer { flex: 1; }
       <!-- filled by JS -->
     </div>
     <div id="modal-footer" class="modal-footer">
-      <button class="modal-print-btn" onclick="closeModal()">返回修改</button>
-      <button class="modal-confirm-btn" onclick="confirmOrder()">確定送出 ✓</button>
+      <button class="modal-confirm-btn" onclick="confirmOrder()" style="flex:1">確定送出 ✓</button>
     </div>
   </div>
 </div>
@@ -1651,10 +1700,22 @@ async function confirmOrder() {
     }
   }
 
-  // Save order to localStorage for modify/cancel
-  const savedOrder = { orderId, company, name, dept, empId, phone, note, items: {...cart}, totalAmt, totalQty, submittedAt: now.toISOString() };
-  try { localStorage.setItem('act_my_order', JSON.stringify(savedOrder)); } catch(e) {}
-  renderMyOrderPanel();
+  // Save to local orders array
+  const orderRecord = {
+    orderId,
+    name,
+    company,
+    dept,
+    empId,
+    phone,
+    note,
+    totalQty,
+    totalAmt,
+    itemsSummary,
+    submittedAt: orderTime,
+    status: '新訂單'
+  };
+  saveOrderToLocal(orderRecord);
 
   document.getElementById('modal-title').textContent = '訂單已送出';
   document.getElementById('modal-footer').style.display = 'none';
@@ -1668,106 +1729,118 @@ async function confirmOrder() {
           ? '<p style="font-size:12px;color:var(--brand)">✓ 已寫入 Google Sheets</p>'
           : '<p style="font-size:12px;color:var(--amber)">⚠ Sheets 寫入失敗，請截圖此頁面保存記錄</p>')
         : ''}
-      <p>您的訂單已成功送出，可在左側「我的訂單」修改或取消。<br>相關人員將於截止後統一彙整並通知領取事宜。</p>
-      <p style="font-size:12px;color:var(--text-muted)">如有疑問請保存此訂單編號</p>
+      <p>您的訂單已成功送出，相關人員將於截止後<br>統一彙整並通知領取事宜。</p>
+      <p style="font-size:12px;color:var(--text-muted)">如有疑問請保存此訂單編號，或點「我的訂單」查看。</p>
+      <button onclick="closeModal()" style="margin-top:8px;padding:10px 32px;background:var(--brand);color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;">關閉</button>
     </div>
   `;
 }
 
-// ── My Order panel ──
-function renderMyOrderPanel() {
-  let saved;
-  try { saved = JSON.parse(localStorage.getItem('act_my_order') || 'null'); } catch(e) { saved = null; }
-  const actions = document.getElementById('my-order-actions');
+// ── 我的訂單 – multi-order localStorage ──
+const ORDERS_KEY = 'act_orders';
 
-  if (!saved) {
-    document.getElementById('my-order-id-label').textContent = '';
-    document.getElementById('my-order-body').innerHTML =
-      '<div class="my-order-empty">尚未有訂單記錄<br><small>送出訂單後可在此修改或取消</small></div>';
-    actions.style.display = 'none';
+function getOrders() {
+  try {
+    return JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]');
+  } catch(e) { return []; }
+}
+
+function saveOrderToLocal(order) {
+  const orders = getOrders();
+  orders.unshift(order); // newest first
+  try { localStorage.setItem(ORDERS_KEY, JSON.stringify(orders)); } catch(e) {}
+  updateOrdersFab();
+}
+
+function removeOrderFromLocal(orderId) {
+  const orders = getOrders().filter(o => o.orderId !== orderId);
+  try { localStorage.setItem(ORDERS_KEY, JSON.stringify(orders)); } catch(e) {}
+  updateOrdersFab();
+}
+
+function updateOrdersFab() {
+  const orders = getOrders();
+  const fab = document.getElementById('orders-fab');
+  const countEl = document.getElementById('orders-fab-count');
+  if (orders.length === 0) {
+    fab.classList.add('hidden');
+  } else {
+    fab.classList.remove('hidden');
+    countEl.textContent = `(${orders.length})`;
+  }
+}
+
+function openOrders() {
+  renderOrdersList();
+  document.getElementById('orders-overlay').classList.add('open');
+}
+
+function closeOrders() {
+  document.getElementById('orders-overlay').classList.remove('open');
+}
+
+function renderOrdersList() {
+  const orders = getOrders();
+  const body = document.getElementById('orders-body');
+  if (orders.length === 0) {
+    body.innerHTML = '<div class="orders-empty">目前沒有訂單記錄</div>';
     return;
   }
-
-  document.getElementById('my-order-id-label').textContent = saved.orderId;
-  actions.style.display = 'flex';
-
-  let html = '';
-  Object.keys(saved.items).forEach(id => {
-    const q = saved.items[id], p = products[+id];
-    if (!p) return;
-    html += `<div class="my-order-item">${p.name}${p.spec ? ' ('+p.spec+')' : ''} <b style="float:right">×${q}　NT$${(q*p.price).toLocaleString()}</b></div>`;
-  });
-  html += `<div class="my-order-total"><span>合計</span><span style="color:var(--brand)">NT$ ${saved.totalAmt.toLocaleString()}</span></div>`;
-  document.getElementById('my-order-body').innerHTML = html;
+  body.innerHTML = orders.map(o => `
+    <div class="order-card" id="order-card-${o.orderId}">
+      <div class="order-card-head">
+        <div>
+          <div class="order-card-name">${o.name}${o.company ? `・${o.company}` : ''}</div>
+          <div class="order-card-id">訂單編號：${o.orderId}</div>
+        </div>
+        <div class="order-card-total">NT$ ${o.totalAmt.toLocaleString()}</div>
+      </div>
+      <div class="order-card-meta">
+        ${o.dept ? `部門：${o.dept}　` : ''}
+        ${o.empId ? `員工編號：${o.empId}　` : ''}
+        下單：${o.submittedAt}
+      </div>
+      <div class="order-card-items">${o.itemsSummary.split('；').join('<br>')}</div>
+      <button class="order-cancel-btn" onclick="cancelOrder('${o.orderId}')">✕ 取消此訂單</button>
+    </div>
+  `).join('');
 }
 
-function modifyOrder() {
-  let saved;
-  try { saved = JSON.parse(localStorage.getItem('act_my_order') || 'null'); } catch(e) { saved = null; }
-  if (!saved) return;
-  if (!confirm(`確定要修改訂單 ${saved.orderId} 嗎？\n修改後需重新送出，舊訂單將標記為「已修改」。`)) return;
+async function cancelOrder(orderId) {
+  if (!confirm(`確定要取消訂單 ${orderId} 嗎？\n取消後將無法復原。`)) return;
 
-  // Pre-fill form with saved data
-  document.getElementById('f-company').value = saved.company || '';
-  document.getElementById('f-name').value = saved.name || '';
-  document.getElementById('f-dept').value = saved.dept || '';
-  document.getElementById('f-empid').value = saved.empId || '';
-  document.getElementById('f-phone').value = saved.phone || '';
-  document.getElementById('f-note').value = saved.note || '';
-
-  // Reset all quantities first
-  document.querySelectorAll('.qty-input').forEach(inp => { inp.value = 0; });
-  Object.keys(cart).forEach(k => delete cart[k]);
-
-  // Restore saved quantities
-  Object.keys(saved.items).forEach(id => {
-    const inp = document.getElementById('qty-' + id);
-    if (inp) {
-      inp.value = saved.items[id];
-      updateCart(+id);
-    }
-  });
-
-  // Send "修改中" notice to Sheets (non-blocking)
-  sendStatusUpdate(saved.orderId, '修改中');
-
-  // Remove saved order so re-submit creates a new one
-  try { localStorage.removeItem('act_my_order'); } catch(e) {}
-  renderMyOrderPanel();
-
-  closeModal();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  alert(`✏️ 已載入訂單 ${saved.orderId} 的內容。\n請調整數量後重新送出，系統將記錄為「修改後訂單」。`);
-}
-
-async function cancelOrder() {
-  let saved;
-  try { saved = JSON.parse(localStorage.getItem('act_my_order') || 'null'); } catch(e) { saved = null; }
-  if (!saved) return;
-  if (!confirm(`確定要取消訂單 ${saved.orderId} 嗎？\n取消後將無法復原，若需要請重新下單。`)) return;
+  const orders = getOrders();
+  const order = orders.find(o => o.orderId === orderId);
+  if (!order) return;
 
   // Send cancellation to Sheets
-  await sendStatusUpdate(saved.orderId, '取消訂單');
-
-  try { localStorage.removeItem('act_my_order'); } catch(e) {}
-  renderMyOrderPanel();
-  alert(`✓ 訂單 ${saved.orderId} 已送出取消請求。`);
-}
-
-async function sendStatusUpdate(originalOrderId, status) {
   const DEFAULT_URL = 'https://script.google.com/macros/s/AKfycbyngMgOBAX2ufdqKdX-ThECiK4pbKCsOnlyjxbo_Oxx0TysIN-C1mypA9nB1hA1l7I7/exec';
   const scriptUrl = (() => { try { return localStorage.getItem('act_script_url') || DEFAULT_URL; } catch(e) { return DEFAULT_URL; } })();
-  const now = new Date();
-  const pad = n => String(n).padStart(2,'0');
-  const payload = {
-    orderId: `${status.replace(/\s/g,'')}${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}-${Math.floor(1000+Math.random()*9000)}`,
-    orderTime: now.toLocaleString('zh-TW',{timeZone:'Asia/Taipei'}),
-    originalOrderId, status,
-    name: '', dept: '', empId: '', phone: '', note: status,
-    itemsSummary: `原單：${originalOrderId}`, totalQty: 0, totalAmt: 0
-  };
-  try { await fetch(scriptUrl, { method: 'POST', body: JSON.stringify(payload) }); } catch(e) {}
+  if (scriptUrl) {
+    try {
+      await fetch(scriptUrl, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'delete', orderId: order.orderId })
+      });
+    } catch(e) {}
+  }
+
+  // Remove from local list
+  removeOrderFromLocal(orderId);
+
+  // Re-render
+  const card = document.getElementById(`order-card-${orderId}`);
+  if (card) {
+    card.style.opacity = '0.4';
+    card.style.pointerEvents = 'none';
+    const btn = card.querySelector('.order-cancel-btn');
+    if (btn) btn.textContent = '✓ 已取消';
+  }
+  setTimeout(() => renderOrdersList(), 800);
 }
+
+// Init FAB on page load
+updateOrdersFab();
 
 // ── Admin panel ──
 function toggleAdmin() {
@@ -1808,7 +1881,6 @@ function clearAdminUrl() {
 }
 
 refreshAdminStatus();
-renderMyOrderPanel();
 
 // ── Countdown ──
 const DEADLINE = new Date('2026-09-18T23:59:59+08:00');
@@ -1849,6 +1921,11 @@ const cdTimer = setInterval(updateCountdown, 1000);
 // Close modal on overlay click
 document.getElementById('modal-overlay').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
+});
+
+// Close orders overlay on backdrop click
+document.getElementById('orders-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeOrders();
 });
 
 // Clear error on input/change
